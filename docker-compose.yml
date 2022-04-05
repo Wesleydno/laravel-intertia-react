@@ -1,0 +1,54 @@
+version: '3.4'
+
+services:
+
+  nginx:
+    container_name: inertia-nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - "7000:80"
+      - "7001:443"
+    volumes:
+      - ./public:/var/www/html/public
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./.docker/nginx/log:/var/log/nginx
+    depends_on:
+      - php
+    links:
+      - php
+    networks:
+      - inertia-network
+
+  php:
+    container_name: inertia-php
+    image: marcelofabianov/php8.1-fpm-oci
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - "7002:9000"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - inertia-network
+
+  mysql:
+    container_name: inertia-mysql
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: "app"
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "secret"
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql
+    ports:
+      - "7003:3306"
+    networks:
+      - inertia-network
+networks:
+  inertia-network:
+    driver: bridge
+
