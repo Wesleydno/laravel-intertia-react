@@ -21,6 +21,11 @@ First, install laravel dependencies:
 composer install
 ```
 
+Run the following command
+
+```bash
+cp .env.example .env && php artisan key:generate
+```
 
 Install react dependencies:
 
