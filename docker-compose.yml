@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
 
@@ -22,7 +22,7 @@ services:
 
   php:
     container_name: inertia-php
-    image: marcelofabianov/php8.1-fpm-oci
+    image: marcelofabianov/php-8.1-fpm-oci
     restart: always
     working_dir: /var/www/html
     ports:
@@ -51,4 +51,3 @@ services:
 networks:
   inertia-network:
     driver: bridge
-
