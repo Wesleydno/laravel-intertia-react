@@ -18,4 +18,21 @@ mix.alias({
 
 mix.js('resources/js/app.tsx', 'public/js')
     .react()
+    .webpackConfig({
+        module: {
+          rules: [
+            {
+              test: /\.tsx?$/,
+              loader: "ts-loader",
+              exclude: /node_modules/
+            }
+          ]
+        },
+        resolve: {
+          extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+          alias: {
+            '@': path.resolve('resources/js')
+          }
+        }
+      })
     .sass('resources/sass/app.scss', 'public/css');
